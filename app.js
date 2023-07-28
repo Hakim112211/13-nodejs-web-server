@@ -1,25 +1,47 @@
 const express = require('express')
+const expressLayouts = require('express-ejs-layouts');
 const app = express()
-const port = 3000
+const port = 3000;
+
+// gunakan ejs
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  // res.send('<h1>Hello World!</h1>');
-	// res.json({
-	// 	nama: 'Rando',
-	// 	email: 'rando@gmail.com',
-	// 	noHP: '08193883774',
-	// });
-	res.sendFile('./index.html', { root: __dirname});
+	// res.sendFile('./index.html', { root: __dirname});
+	const mahasiswa = [
+		{
+			nama: 'Laurientus Rando',
+			email: 'rando@gmail.com',
+		},
+		{
+			nama: 'Kevin Budiman',
+			email: 'kevin@gmail.com',
+		},
+		{
+			nama: 'Rangga Sastria',
+			email: 'rangga@gmail.com',
+		},
+	];
+	res.render('index', { 
+		nama: 'Laurientus Rando', 
+		title: 'Halaman Home',
+		mahasiswa,
+		layout: 'layouts/main-layout',
+	});
 });
 
 app.get('/about', (req, res) => {
-  // res.send('Ini adalah Halaman About');
-	res.sendFile('./about.html', { root: __dirname});
+	res.render('about', { 
+		layout: 'layouts/main-layout',
+		title: 'Halaman About',
+	});
 });
 
 app.get('/contact', (req, res) => {
-  // res.send('Ini adalah Halaman Contact');
-	res.sendFile('./contact.html', { root: __dirname});
+	res.render('contact', { 
+		layout: 'layouts/main-layout',
+		title: 'Halaman Contactt',
+	});
 });
 
 app.get('/product/:id', (req, res) => {
@@ -33,56 +55,4 @@ app.use('/', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
-
-
-// const http = require('http');
-// const fs = require('fs');
-
-// const port = 3000;
-
-// const renderHTML = (path, res) => {
-// 		fs.readFile(path, (err, data) => {
-// 				if (err) {
-// 					res.writeHead(404);
-// 					res.write('Error: file not found');
-// 				} else {
-// 					res.write(data);
-// 				}
-// 				res.end();
-// 			});
-// 	};
-
-// http
-// 	.createServer((req, res) => {
-// 		res.writeHead(200, {
-// 			'Content-Type' : 'text/html',
-// 		});
-
-// 		const url = req.url;
-
-// 		switch(url) {
-// 		case '/about':
-// 			renderHTML('./about.html', res);
-// 			break;
-// 		case '/contact':
-// 			renderHTML('./about.html', res);
-// 			break;
-// 		default:
-// 			renderHTML('./index.html', res);
-// 			break;
-// 		}
-
-
-// 		// if( url === '/about') {
-// 		// 	renderHTML('./about.html', res)	
-// 		// } else if( url === '/contact'){
-// 		// 	renderHTML('./contact.html', res);
-// 		// } else {
-// 		// 	// res.write('Halo Bumi');
-// 		// 	renderHTML('./index.html', res);
-// 		// } 
-// 	})
-// 	.listen(port, () => {
-// 		console.log(`server is listening on port ${port}..`);
-// 	});
+});
